@@ -2,26 +2,18 @@ import pygame
 from random import randint
 
 
+
 player_x, player_y = 100,400
 width, height = 400,600
 FPS = 60
-motion = 'STOP'
 
 pygame.init()
-pygame.time.set_timer(pygame.USEREVENT, 1500)
+pygame.time.set_timer(pygame.USEREVENT, 500)
 pygame.display.set_caption('Rocket Game')
 
 list_tuple = ('enemy.png','enemy2.png','enemy3.png')
 list_main = []
 bullet_list = []
-"""
-Таски
-- Допилить пулю ( добавить условие " Есть ли пуля? " )
-- Добавить отрисовку
-- Намутить переменную для вызова обьекта с убийством врага
-- создать группу "убитых" или нечто подобное
-"""
-
 sc = pygame.display.set_mode((width,height))
 
 pygame.mixer.music.load('soundtrack.mp3')
@@ -38,8 +30,9 @@ bullet_list.append(bullet)
 font = pygame.font.Font(pygame.font.match_font('dejavusans'), 36)
 text1 = font.render('Game over', 1, (180,0,0))
 
-sc.fill((255,255,255)) 
+
 clock = pygame.time.Clock()
+
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self,x,surf,group):
@@ -64,7 +57,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.img.get_rect(center=(x,height))
 
 
-class Bullet(pygame.sprite.Sprite): # Здеся надо чекнуть
+class Bullet(pygame.sprite.Sprite): 
     def __init__(self, x, y, surf, group):
         pygame.sprite.Sprite.__init__(self)
         self.image = surf
@@ -73,7 +66,7 @@ class Bullet(pygame.sprite.Sprite): # Здеся надо чекнуть
 
     def update(self):
         if self.rect.y > 0:
-            self.rect.y -= 5
+            self.rect.y -= 10
         else:
             self.kill()
 
@@ -116,7 +109,8 @@ while True:
     groups.update()
     bul_group.update()
     
-    sc.fill((255,255,255))
+    sc.fill((50,25,25))
+    pygame.draw.circle(sc,(255,255,255),(randint(0,width),randint(0,height)),2)
 
     sc.blit(player_rocket.img, player_rocket.rect)
     groups.draw(sc)
